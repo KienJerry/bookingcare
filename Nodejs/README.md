@@ -35,3 +35,6 @@ npx sequelize-cli db:migrate
 
 ## Lệnh chạy Seeder (Dữ liệu hard)
 npx sequelize-cli db:seed:all
+
+## Hướng dẫn setUp server
+https://www.bezkoder.com/node-js-express-sequelize-mysql/
