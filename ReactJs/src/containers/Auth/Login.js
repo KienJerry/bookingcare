@@ -13,25 +13,37 @@ class Login extends Component {
             username: '',
             password: '',
             isShowPassword: false,
+            errMessage: '',
         };
     }
 
     handleLogin = async () => {
+        this.setState({
+            errMessage: '',
+        })
         try {
-            await handleLogin(this.state.username, this.state.password);
+            let data = await handleLogin(this.state.username, this.state.password);
+            if (data && data.errCode !== 0) {
+                this.setState({
+                    errMessage: data.message,
+                })
+            }else{
+              this.props.userLoginSuccess(data.user)
+            }
         } catch (e) {
-            console.log(e)
         }
     };
 
     render() {
-
 
         return (
             <div className='login-background'>
                 <div className='login-container'>
                     <div className='login-content row'>
                         <h1 className='col-12 text-center'>Login</h1>
+                        <div className='col-12' style={{ color: 'red' }}>
+                            {this.state.errMessage}
+                        </div>
                         <div className='col-12 form-group type-input-login'>
                             <label>UserName</label>
                             <input
@@ -99,8 +111,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        // userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
     };
 };
 
