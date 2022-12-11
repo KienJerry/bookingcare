@@ -8,7 +8,15 @@ require('dotenv').config();
 
 let app = express();
 
-app.use(cors({ credentials: true, origin: true }));
+//Cors
+// app.use(cors({ credentials: true, origin: true }));
+//Or
+const corsOptions = {
+    origin: process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+    optionSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
 //port
 let port = process.env.PORT || 6969;
